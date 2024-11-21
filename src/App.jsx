@@ -4,6 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
+import AnimatedText from "./components/animatedText";
 
 // The JSON data
 const carData = [
@@ -214,7 +215,7 @@ export default function DynamicCarDetailsForm() {
       <div className="space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-5xl font-bold tracking-tight text-[#0A3B79] sm:text-4xl md:text-5xl">
-            Verkaufe dein Auto bequem
+            Verkaufe dein Auto <AnimatedText />
           </h1>
           <p className="mx-auto max-w-[600px] text-gray-600">
             Ohne Stress zum Mega Preis - Erhalte direkt deinen finalen

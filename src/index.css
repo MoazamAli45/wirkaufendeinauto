@@ -35,3 +35,14 @@
   border-width: 0 4px 4px 0; /* Tick mark shape */
   transform: rotate(45deg); /* Rotate to form a tick */
 }
+@keyframes line {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.animate-line {
+  animation: line 2s ease-in-out forwards;
+}
