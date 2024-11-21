@@ -81,6 +81,9 @@ export default function DynamicCarDetailsForm() {
     selectedYear?.variants.find((v) => v.name === variant) ||
     (variants.length === 1 ? selectedYear?.variants[0] : null);
 
+  const isMileageIncorrect =
+    kilometers && parseInt(kilometers) !== selectedVariant.mileage;
+
   useEffect(() => {
     setModel("");
     setYear("");
@@ -365,7 +368,7 @@ export default function DynamicCarDetailsForm() {
                         </label>
                         <div className="flex items-center relative">
                           <input
-                            type="number"
+                            type="text"
                             value={kilometers}
                             onChange={(e) => setKilometers(e.target.value)}
                             className="relative w-full px-4 py-3 bg-white border-2 focus:border-[#0A3B79] rounded text-base focus:outline-none"
@@ -375,6 +378,13 @@ export default function DynamicCarDetailsForm() {
                             km
                           </span>
                         </div>
+                        {isMileageIncorrect && (
+                          <div className="mt-2 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded">
+                            Basierend auf unserer Erfahrung hast du
+                            möglicherweise einen falschen Wert eingegeben. Bitte
+                            kontrolliere deine Eingabe.
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -450,12 +460,19 @@ export default function DynamicCarDetailsForm() {
                       )}
                       {preferSell && (
                         <div className="flex items-center space-x-2 border-[1px] border-solid border-black px-2 py-4 rounded-md">
-                          <input
-                            type="checkbox"
-                            checked={consent}
-                            onChange={(e) => setConsent(e.target.checked)}
-                            className="mt-1"
-                          />
+                          <div className="checkbox-wrapper relative h-[18px]">
+                            <input
+                              type="checkbox"
+                              checked={consent}
+                              onChange={(e) => setConsent(e.target.checked)}
+                              className="checkbox-input"
+                              id="custom-checkbox"
+                            />
+                            <label
+                              htmlFor="custom-checkbox"
+                              className="custom-checkbox"
+                            ></label>
+                          </div>
                           <label className="text-sm text-gray-700">
                             Ich bin mit dem Erhalt meiner Bewertung per E-Mail
                             sowie werblicher E-Mails zum Service von WKDA GmbH

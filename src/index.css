@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.checkbox-input {
+  opacity: 0; /* Hide the default checkbox */
+  position: absolute; /* Position it off-screen */
+  width: 0; /* Prevents it from taking up space */
+  height: 0; /* Prevents it from taking up space */
+}
+
+.custom-checkbox {
+  position: relative;
+  width: 18px; /* Custom checkbox width */
+  height: 18px; /* Custom checkbox height */
+  border: 1px solid #00000088; /* Border color */
+  display: inline-block;
+  border-radius: 2px;
+  cursor: pointer; /* Pointer on hover */
+}
+
+.checkbox-input:checked + .custom-checkbox:after {
+  display: block; /* Show the tick mark when checked */
+}
+
+.custom-checkbox:after {
+  content: "";
+  position: absolute;
+  display: none; /* Hide by default */
+  left: 6px; /* Position the tick mark */
+  top: -4px; /* Position the tick mark */
+  width: 10px; /* Width of the tick mark */
+  height: 17px; /* Height of the tick mark */
+  border: solid #e87524; /* Color of the tick */
+  border-width: 0 4px 4px 0; /* Tick mark shape */
+  transform: rotate(45deg); /* Rotate to form a tick */
+}
