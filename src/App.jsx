@@ -4,7 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
-import AnimatedText from "./components/animatedText";
+import AnimatedText from "./components/AnimatedText";
 
 // The JSON data
 const carData = [
