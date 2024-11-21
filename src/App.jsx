@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { SemiCircleProgress } from "react-semicircle-progressbar";
 
 // The JSON data
 const carData = [
@@ -41,8 +42,6 @@ export default function DynamicCarDetailsForm() {
   const [variant, setVariant] = useState("");
   const [power, setPower] = useState("");
   const [transmission, setTransmission] = useState("");
-  const [doors, setDoors] = useState("");
-  const [modelType, setModelType] = useState("");
   const [kilometers, setKilometers] = useState("");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -84,6 +83,9 @@ export default function DynamicCarDetailsForm() {
   const isMileageIncorrect =
     kilometers && parseInt(kilometers) !== selectedVariant.mileage;
 
+  const doors = selectedVariant ? selectedVariant.doors : "";
+  const modelType = selectedVariant ? selectedVariant.modelType : "";
+
   useEffect(() => {
     setModel("");
     setYear("");
@@ -110,8 +112,6 @@ export default function DynamicCarDetailsForm() {
     setVariant("");
     setPower("");
     setTransmission("");
-    setDoors("");
-    setModelType("");
     setKilometers("");
     setPlanSell("");
     setPreferSell("");
@@ -141,6 +141,27 @@ export default function DynamicCarDetailsForm() {
       preferSell,
     });
   };
+
+  const fieldsFilled = [
+    brand,
+    model,
+    year,
+    bodyStyle,
+    fuelType,
+    variant,
+    power,
+    transmission,
+    doors,
+    modelType,
+    kilometers,
+    email,
+    consent,
+    selectedDecision,
+    planSell,
+    preferSell,
+  ].filter(Boolean).length;
+
+  const progress = Math.round((fieldsFilled / 16) * 100);
 
   const CustomSelect = ({
     value,
@@ -189,10 +210,10 @@ export default function DynamicCarDetailsForm() {
   );
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
+    <div className="mx-auto max-w-3xl p-6">
       <div className="space-y-8">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0A3B79] sm:text-4xl md:text-5xl">
+          <h1 className="text-5xl font-bold tracking-tight text-[#0A3B79] sm:text-4xl md:text-5xl">
             Verkaufe dein Auto bequem
           </h1>
           <p className="mx-auto max-w-[600px] text-gray-600">
@@ -200,302 +221,318 @@ export default function DynamicCarDetailsForm() {
             Verkaufspreis und buche deinen Abgabe-Termin online
           </p>
         </div>
+        <div className="flex md:flex-row gap-y-4 flex-col justify-center md:items-end">
+          <form onSubmit={handleSubmit} className="space-y-6 md:px-16 flex-1">
+            <div className="space-y-2">
+              <label className="block text-lg font-medium text-gray-700">
+                Von welcher Marke ist dein Auto?
+              </label>
+              <CustomSelect
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+                options={brands}
+                placeholder="Marke auswählen"
+              />
+            </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 md:px-16">
-          <div className="space-y-2">
-            <label className="block text-lg font-medium text-gray-700">
-              Von welcher Marke ist dein Auto?
-            </label>
-            <CustomSelect
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              options={brands}
-              placeholder="Marke auswählen"
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="block text-lg font-medium text-gray-700">
+                Welches Modell?
+              </label>
+              <CustomSelect
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                options={models}
+                placeholder="Modell auswählen"
+                disabled={!brand}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <label className="block text-lg font-medium text-gray-700">
-              Welches Modell?
-            </label>
-            <CustomSelect
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              options={models}
-              placeholder="Modell auswählen"
-              disabled={!brand}
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="block text-lg font-medium text-gray-700">
+                In welchem Jahr wurde es zugelassen?
+              </label>
+              <CustomSelect
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+                options={years}
+                placeholder="Erstzulassung auswählen"
+                disabled={!model}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <label className="block text-lg font-medium text-gray-700">
-              In welchem Jahr wurde es zugelassen?
-            </label>
-            <CustomSelect
-              value={year}
-              onChange={(e) => setYear(Number(e.target.value))}
-              options={years}
-              placeholder="Erstzulassung auswählen"
-              disabled={!model}
-            />
-          </div>
-
-          {year && (
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <label className="block text-lg font-medium text-gray-700">
-                  Welche Bauform hat es?
-                </label>
-                {bodyStyles.length === 1 ? (
-                  <input
-                    type="text"
-                    value={bodyStyles[0]}
-                    className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
-                    readOnly
-                  />
-                ) : (
-                  <SelectableButtons
-                    options={bodyStyles}
-                    selectedValue={bodyStyle}
-                    onSelect={setBodyStyle}
-                  />
-                )}
-              </div>
-              {(bodyStyle || bodyStyles.length === 1) && (
+            {year && (
+              <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="block text-lg font-medium text-gray-700">
-                    Welchen Kraftstoff tankt es?
+                    Welche Bauform hat es?
                   </label>
-                  <input
-                    type="text"
-                    value={fuelType}
-                    className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
-                    readOnly
-                  />
-                </div>
-              )}
-              {(bodyStyle || bodyStyles.length === 1) && (
-                <div className="space-y-2">
-                  <label className="block text-lg font-medium text-gray-700">
-                    Um welche Modellvariante handelt es sich?
-                  </label>
-                  {variants.length === 1 ? (
+                  {bodyStyles.length === 1 ? (
                     <input
                       type="text"
-                      value={variants[0]}
+                      value={bodyStyles[0]}
                       className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
                       readOnly
                     />
                   ) : (
                     <SelectableButtons
-                      options={variants}
-                      selectedValue={variant}
-                      onSelect={setVariant}
+                      options={bodyStyles}
+                      selectedValue={bodyStyle}
+                      onSelect={setBodyStyle}
                     />
                   )}
                 </div>
-              )}
-
-              {(bodyStyle || bodyStyles.length === 1) && selectedVariant && (
-                <div className="space-y-6">
+                {(bodyStyle || bodyStyles.length === 1) && (
                   <div className="space-y-2">
                     <label className="block text-lg font-medium text-gray-700">
-                      Wie viele PS hat es?
+                      Welchen Kraftstoff tankt es?
                     </label>
-                    <SelectableButtons
-                      options={selectedVariant.power}
-                      selectedValue={power}
-                      onSelect={setPower}
+                    <input
+                      type="text"
+                      value={fuelType}
+                      className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                      readOnly
                     />
                   </div>
-                  {power && (
+                )}
+                {(bodyStyle || bodyStyles.length === 1) && (
+                  <div className="space-y-2">
+                    <label className="block text-lg font-medium text-gray-700">
+                      Um welche Modellvariante handelt es sich?
+                    </label>
+                    {variants.length === 1 ? (
+                      <input
+                        type="text"
+                        value={variants[0]}
+                        className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                        readOnly
+                      />
+                    ) : (
+                      <SelectableButtons
+                        options={variants}
+                        selectedValue={variant}
+                        onSelect={setVariant}
+                      />
+                    )}
+                  </div>
+                )}
+
+                {(bodyStyle || bodyStyles.length === 1) && selectedVariant && (
+                  <div className="space-y-6">
                     <div className="space-y-2">
                       <label className="block text-lg font-medium text-gray-700">
-                        Welches Getriebe hat es?
+                        Wie viele PS hat es?
                       </label>
-                      {selectedVariant.transmission.length === 1 ? (
-                        <input
-                          type="text"
-                          value={selectedVariant.transmission[0]}
-                          className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
-                          readOnly
-                        />
-                      ) : (
-                        <SelectableButtons
-                          options={selectedVariant.transmission}
-                          selectedValue={transmission}
-                          onSelect={setTransmission}
-                        />
-                      )}
+                      <SelectableButtons
+                        options={selectedVariant.power}
+                        selectedValue={power}
+                        onSelect={setPower}
+                      />
                     </div>
-                  )}
-                  {power &&
-                    (transmission ||
-                      selectedVariant.transmission.length === 1) && (
+                    {power && (
                       <div className="space-y-2">
                         <label className="block text-lg font-medium text-gray-700">
-                          Wie viele Türen hat es?
+                          Welches Getriebe hat es?
                         </label>
-                        <input
-                          type="text"
-                          value={selectedVariant.doors}
-                          className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
-                          readOnly
-                        />
-                      </div>
-                    )}
-                  {power &&
-                    (transmission ||
-                      selectedVariant.transmission.length === 1) && (
-                      <div className="space-y-2">
-                        <label className="block text-lg font-medium text-gray-700">
-                          Welcher Modelltyp ist es?
-                        </label>
-                        <input
-                          type="text"
-                          value={selectedVariant.modelType}
-                          className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
-                          readOnly
-                        />
-                      </div>
-                    )}
-                  {power &&
-                    (transmission ||
-                      selectedVariant.transmission.length === 1) && (
-                      <div className="space-y-2">
-                        <label className="block text-lg font-medium text-gray-700">
-                          Wie ist der Kilometerstand?
-                        </label>
-                        <div className="flex items-center relative">
+                        {selectedVariant.transmission.length === 1 ? (
                           <input
                             type="text"
-                            value={kilometers}
-                            onChange={(e) => setKilometers(e.target.value)}
-                            className="relative w-full px-4 py-3 bg-white border-2 focus:border-[#0A3B79] rounded text-base focus:outline-none"
-                            placeholder={selectedVariant.mileage.toString()}
+                            value={selectedVariant.transmission[0]}
+                            className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            readOnly
                           />
-                          <span className="absolute top-3 right-3 text-lg">
-                            km
-                          </span>
+                        ) : (
+                          <SelectableButtons
+                            options={selectedVariant.transmission}
+                            selectedValue={transmission}
+                            onSelect={setTransmission}
+                          />
+                        )}
+                      </div>
+                    )}
+                    {power &&
+                      (transmission ||
+                        selectedVariant.transmission.length === 1) && (
+                        <div className="space-y-2">
+                          <label className="block text-lg font-medium text-gray-700">
+                            Wie viele Türen hat es?
+                          </label>
+                          <input
+                            type="text"
+                            value={selectedVariant.doors}
+                            className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            readOnly
+                          />
                         </div>
-                        {isMileageIncorrect && (
-                          <div className="mt-2 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded">
-                            Basierend auf unserer Erfahrung hast du
-                            möglicherweise einen falschen Wert eingegeben. Bitte
-                            kontrolliere deine Eingabe.
+                      )}
+                    {power &&
+                      (transmission ||
+                        selectedVariant.transmission.length === 1) && (
+                        <div className="space-y-2">
+                          <label className="block text-lg font-medium text-gray-700">
+                            Welcher Modelltyp ist es?
+                          </label>
+                          <input
+                            type="text"
+                            value={selectedVariant.modelType}
+                            className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            readOnly
+                          />
+                        </div>
+                      )}
+                    {power &&
+                      (transmission ||
+                        selectedVariant.transmission.length === 1) && (
+                        <div className="space-y-2">
+                          <label className="block text-lg font-medium text-gray-700">
+                            Wie ist der Kilometerstand?
+                          </label>
+                          <div className="flex items-center relative">
+                            <input
+                              type="text"
+                              value={kilometers}
+                              onChange={(e) => setKilometers(e.target.value)}
+                              className="relative w-full px-4 py-3 bg-white border-2 focus:border-[#0A3B79] rounded text-base focus:outline-none"
+                              placeholder={selectedVariant.mileage.toString()}
+                            />
+                            <span className="absolute top-3 right-3 text-lg">
+                              km
+                            </span>
+                          </div>
+                          {isMileageIncorrect && (
+                            <div className="mt-2 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded">
+                              Basierend auf unserer Erfahrung hast du
+                              möglicherweise einen falschen Wert eingegeben.
+                              Bitte kontrolliere deine Eingabe.
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                    {kilometers && (
+                      <div className="space-y-6">
+                        <div className="space-y-2">
+                          <label className="block text-lg font-medium text-gray-700">
+                            Wann planst du den Verkauf?
+                          </label>
+                          <CustomSelect
+                            value={planSell}
+                            onChange={(e) => setPlanSell(e.target.value)}
+                            options={[
+                              "In den nächsten 3 Monaten",
+                              "In den nächsten 6 Monaten",
+                              "In den nächsten 12 Monaten",
+                            ]}
+                            placeholder="Zeitraum auswählen"
+                          />
+                        </div>
+                        {planSell && (
+                          <div className="space-y-2">
+                            <label className="block text-lg font-medium text-gray-700">
+                              An wen bevorzugst du zu verkaufen?
+                            </label>
+                            <CustomSelect
+                              value={preferSell}
+                              onChange={(e) => setPreferSell(e.target.value)}
+                              options={["An Privat", "An Händler", "An Export"]}
+                              placeholder="Käufer auswählen"
+                            />
+                          </div>
+                        )}
+
+                        {preferSell && (
+                          <div className="space-y-2">
+                            <label className="block text-lg font-medium text-gray-700">
+                              Planst du, dein Auto für ein neues in Zahlung zu
+                              geben?
+                            </label>
+                            <div className="flex space-x-4">
+                              {decisions.map((decision) => (
+                                <button
+                                  key={decision}
+                                  type="button"
+                                  onClick={() => setSelectedDecision(decision)}
+                                  className={`px-4 py-2 border-2 rounded flex-1 ${
+                                    selectedDecision === decision
+                                      ? "border-[#0A3B79] text-[#0A3B79]"
+                                      : "border-gray-200 text-gray-700"
+                                  }`}
+                                >
+                                  {decision}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {preferSell && (
+                          <div className="space-y-2">
+                            <label className="block text-lg font-medium text-gray-700">
+                              Wohin können wir das Verkaufsangebot schicken?
+                            </label>
+                            <input
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
+                              className="w-full px-4 py-3 bg-white border-2 border-[#0A3B79] rounded text-base focus:outline-none"
+                              placeholder="Bitte E-Mail-Adresse eingeben"
+                            />
+                          </div>
+                        )}
+                        {preferSell && (
+                          <div className="flex items-center space-x-2 border-[1px] border-solid border-black px-2 py-4 rounded-md">
+                            <div className="checkbox-wrapper relative h-[18px]">
+                              <input
+                                type="checkbox"
+                                checked={consent}
+                                onChange={(e) => setConsent(e.target.checked)}
+                                className="checkbox-input"
+                                id="custom-checkbox"
+                              />
+                              <label
+                                htmlFor="custom-checkbox"
+                                className="custom-checkbox"
+                              ></label>
+                            </div>
+                            <label className="text-sm text-gray-700">
+                              Ich bin mit dem Erhalt meiner Bewertung per E-Mail
+                              sowie werblicher E-Mails zum Service von WKDA GmbH
+                              einverstanden (keine Sorge, du kannst dich
+                              jederzeit wieder abmelden).
+                            </label>
                           </div>
                         )}
                       </div>
                     )}
+                  </div>
+                )}
+              </div>
+            )}
 
-                  {kilometers && (
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <label className="block text-lg font-medium text-gray-700">
-                          Wann planst du den Verkauf?
-                        </label>
-                        <CustomSelect
-                          value={planSell}
-                          onChange={(e) => setPlanSell(e.target.value)}
-                          options={[
-                            "In den nächsten 3 Monaten",
-                            "In den nächsten 6 Monaten",
-                            "In den nächsten 12 Monaten",
-                          ]}
-                          placeholder="Zeitraum auswählen"
-                        />
-                      </div>
-                      {planSell && (
-                        <div className="space-y-2">
-                          <label className="block text-lg font-medium text-gray-700">
-                            An wen bevorzugst du zu verkaufen?
-                          </label>
-                          <CustomSelect
-                            value={preferSell}
-                            onChange={(e) => setPreferSell(e.target.value)}
-                            options={["An Privat", "An Händler", "An Export"]}
-                            placeholder="Käufer auswählen"
-                          />
-                        </div>
-                      )}
-
-                      {preferSell && (
-                        <div className="space-y-2">
-                          <label className="block text-lg font-medium text-gray-700">
-                            Planst du, dein Auto für ein neues in Zahlung zu
-                            geben?
-                          </label>
-                          <div className="flex space-x-4">
-                            {decisions.map((decision) => (
-                              <button
-                                key={decision}
-                                type="button"
-                                onClick={() => setSelectedDecision(decision)}
-                                className={`px-4 py-2 border-2 rounded flex-1 ${
-                                  selectedDecision === decision
-                                    ? "border-[#0A3B79] text-[#0A3B79]"
-                                    : "border-gray-200 text-gray-700"
-                                }`}
-                              >
-                                {decision}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {preferSell && (
-                        <div className="space-y-2">
-                          <label className="block text-lg font-medium text-gray-700">
-                            Wohin können wir das Verkaufsangebot schicken?
-                          </label>
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="w-full px-4 py-3 bg-white border-2 border-[#0A3B79] rounded text-base focus:outline-none"
-                            placeholder="Bitte E-Mail-Adresse eingeben"
-                          />
-                        </div>
-                      )}
-                      {preferSell && (
-                        <div className="flex items-center space-x-2 border-[1px] border-solid border-black px-2 py-4 rounded-md">
-                          <div className="checkbox-wrapper relative h-[18px]">
-                            <input
-                              type="checkbox"
-                              checked={consent}
-                              onChange={(e) => setConsent(e.target.checked)}
-                              className="checkbox-input"
-                              id="custom-checkbox"
-                            />
-                            <label
-                              htmlFor="custom-checkbox"
-                              className="custom-checkbox"
-                            ></label>
-                          </div>
-                          <label className="text-sm text-gray-700">
-                            Ich bin mit dem Erhalt meiner Bewertung per E-Mail
-                            sowie werblicher E-Mails zum Service von WKDA GmbH
-                            einverstanden (keine Sorge, du kannst dich jederzeit
-                            wieder abmelden).
-                          </label>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
+            <button
+              type="submit"
+              className="w-[90%] mx-auto bg-[#E87524] hover:bg-[#E87524]/90 text-white py-3 px-4 rounded text-lg font-semibold flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span>Bewertung ansehen</span>
+              <ChevronRight className="mt-1 h-[25px] w-[25px]" />
+            </button>
+          </form>
+          {/*  Progress */}
+          <div className="flex items-center flex-col justify-center mb-6">
+            <div className="relative w-24 h-24">
+              <SemiCircleProgress
+                percentage={progress}
+                size={{
+                  width: 96,
+                  height: 96,
+                }}
+                strokeWidth={10}
+                strokeColor="#10b981"
+              />
             </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-[90%] mx-auto bg-[#E87524] hover:bg-[#E87524]/90 text-white py-3 px-4 rounded text-lg font-semibold flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span>Bewertung ansehen</span>
-            <ChevronRight className="mt-1 h-[25px] w-[25px]" />
-          </button>
-        </form>
+            <span className="ml-2 text-gray-700">abgeschlossen</span>
+          </div>
+        </div>
       </div>
     </div>
   );
