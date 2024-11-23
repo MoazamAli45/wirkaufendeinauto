@@ -4,7 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
-import AnimatedText from "./components/AnimatedText";
+import RevealText from "./components/RevealText";
 
 // The JSON data
 const carData = [
@@ -176,7 +176,7 @@ export default function DynamicCarDetailsForm() {
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className="appearance-none w-full px-2 py-2 bg-white border-2 disabled:border-[1px] border-[#0A3B79] rounded text-base focus:outline-none focus:border-[#0A3B79] disabled:bg-[#e7e7e7] disabled:border-gray-300 disabled:cursor-not-allowed"
+        className="appearance-none w-full px-2 py-2 bg-white border-2 disabled:border-[1px] border-[#EE202C] rounded text-base focus:outline-none focus:border-[#EE202C] disabled:bg-[#EE202C]/10 disabled:border-[#EE202C]/10 disabled:cursor-not-allowed"
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
@@ -185,7 +185,7 @@ export default function DynamicCarDetailsForm() {
           </option>
         ))}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#0A3B79]">
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#EE202C]">
         <ChevronDown className="h-5 w-5" />
       </div>
     </div>
@@ -200,8 +200,8 @@ export default function DynamicCarDetailsForm() {
           onClick={() => onSelect(option)}
           className={`px-4 py-2 border-2 rounded flex-1 ${
             selectedValue === option
-              ? "border-[#0A3B79] text-[#0A3B79]"
-              : "border-gray-200 text-gray-700"
+              ? "border-[#EE202C] text-[#EE202C]"
+              : "border-[#EE202C]/10 text-gray-700"
           }`}
         >
           {option}
@@ -214,8 +214,8 @@ export default function DynamicCarDetailsForm() {
     <div className="mx-auto max-w-3xl p-6">
       <div className="space-y-8">
         <div className="space-y-2 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-[#0A3B79] sm:text-4xl md:text-5xl">
-            Verkaufe dein Auto <AnimatedText />
+          <h1 className="text-5xl font-bold tracking-tight text-[#EE202C] sm:text-4xl md:text-5xl">
+            Verkaufe dein Auto <RevealText />
           </h1>
           <p className="mx-auto max-w-[600px] text-gray-600">
             Ohne Stress zum Mega Preis - Erhalte direkt deinen finalen
@@ -272,7 +272,7 @@ export default function DynamicCarDetailsForm() {
                     <input
                       type="text"
                       value={bodyStyles[0]}
-                      className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                      className="w-full px-4 py-3 text-center bg-white border-2 text-[#EE202C] font-medium border-[#EE202C] rounded text-base focus:outline-none"
                       readOnly
                     />
                   ) : (
@@ -291,7 +291,7 @@ export default function DynamicCarDetailsForm() {
                     <input
                       type="text"
                       value={fuelType}
-                      className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                      className="w-full px-4 py-3 text-center bg-white border-2 text-[#EE202C] font-medium border-[#EE202C] rounded text-base focus:outline-none"
                       readOnly
                     />
                   </div>
@@ -305,7 +305,7 @@ export default function DynamicCarDetailsForm() {
                       <input
                         type="text"
                         value={variants[0]}
-                        className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                        className="w-full px-4 py-3 text-center bg-white border-2 text-[#EE202C] font-medium border-[#EE202C] rounded text-base focus:outline-none"
                         readOnly
                       />
                     ) : (
@@ -339,7 +339,7 @@ export default function DynamicCarDetailsForm() {
                           <input
                             type="text"
                             value={selectedVariant.transmission[0]}
-                            className="w-full px-4 py-3 text-center bg-white border-2 text-[#0A3B79] font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            className="w-full px-4 py-3 text-center bg-white border-2 text-[#EE202C] font-medium border-[#EE202C] rounded text-base focus:outline-none"
                             readOnly
                           />
                         ) : (
@@ -361,7 +361,7 @@ export default function DynamicCarDetailsForm() {
                           <input
                             type="text"
                             value={selectedVariant.doors}
-                            className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            className="w-full px-4 py-3 bg-white border-2 text-[#EE202C] text-center font-medium border-[#EE202C] rounded text-base focus:outline-none"
                             readOnly
                           />
                         </div>
@@ -376,7 +376,7 @@ export default function DynamicCarDetailsForm() {
                           <input
                             type="text"
                             value={selectedVariant.modelType}
-                            className="w-full px-4 py-3 bg-white border-2 text-[#0A3B79] text-center font-medium border-[#0A3B79] rounded text-base focus:outline-none"
+                            className="w-full px-4 py-3 bg-white border-2 text-[#EE202C] text-center font-medium border-[#EE202C] rounded text-base focus:outline-none"
                             readOnly
                           />
                         </div>
@@ -393,7 +393,7 @@ export default function DynamicCarDetailsForm() {
                               type="text"
                               value={kilometers}
                               onChange={(e) => setKilometers(e.target.value)}
-                              className="relative w-full px-4 py-3 bg-white border-2 focus:border-[#0A3B79] rounded text-base focus:outline-none"
+                              className="relative w-full px-4 py-3 bg-[#EE202C]/10 border-2 border-[#EE202C]/10 focus:border-[#EE202C] rounded text-base focus:outline-none"
                               placeholder={selectedVariant.mileage.toString()}
                             />
                             <span className="absolute top-3 right-3 text-lg">
@@ -401,7 +401,7 @@ export default function DynamicCarDetailsForm() {
                             </span>
                           </div>
                           {isMileageIncorrect && (
-                            <div className="mt-2 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded">
+                            <div className="mt-2 p-3 bg-[#EE202C]/20 border border-[#EE202C] text-[#EE202C] rounded">
                               Basierend auf unserer Erfahrung hast du
                               möglicherweise einen falschen Wert eingegeben.
                               Bitte kontrolliere deine Eingabe.
@@ -455,7 +455,7 @@ export default function DynamicCarDetailsForm() {
                                   onClick={() => setSelectedDecision(decision)}
                                   className={`px-4 py-2 border-2 rounded flex-1 ${
                                     selectedDecision === decision
-                                      ? "border-[#0A3B79] text-[#0A3B79]"
+                                      ? "border-[#EE202C] text-[#EE202C]"
                                       : "border-gray-200 text-gray-700"
                                   }`}
                                 >
@@ -475,7 +475,7 @@ export default function DynamicCarDetailsForm() {
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               required
-                              className="w-full px-4 py-3 bg-white border-2 border-[#0A3B79] rounded text-base focus:outline-none"
+                              className="w-full px-4 py-3 bg-white border-2 border-[#EE202C] rounded text-base focus:outline-none"
                               placeholder="Bitte E-Mail-Adresse eingeben"
                             />
                           </div>

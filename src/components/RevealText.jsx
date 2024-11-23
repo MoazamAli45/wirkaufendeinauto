@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const AnimatedText = () => {
+const RevealText = () => {
   const words = ["bequem", "einfach", "Schnell"]; // Words to display
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
@@ -16,7 +16,7 @@ const AnimatedText = () => {
       {/* Text with animation */}
       <span
         key={currentWordIndex} // Ensure a fresh render
-        className="block text-5xl font-bold text-[#0D4F78] transition-all duration-500 ease-in-out"
+        className="block text-5xl font-bold text-[#EE202C] transition-all duration-500 ease-in-out"
       >
         {words[currentWordIndex]}
       </span>
@@ -24,10 +24,10 @@ const AnimatedText = () => {
       {/* Bottom Line Animation */}
       <div
         key={`line-${currentWordIndex}`} // Reset line animation on each word change
-        className="absolute -bottom-[2px] left-0 h-1 bg-[#0D4F78] animate-line "
+        className="absolute -bottom-[2px] left-0 h-1 bg-[#EE202C] animate-line "
       />
     </div>
   );
 };
 
-export default AnimatedText;
+export default RevealText;
