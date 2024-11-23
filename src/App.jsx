@@ -214,7 +214,7 @@ export default function DynamicCarDetailsForm() {
     <div className="mx-auto max-w-3xl p-6">
       <div className="space-y-8">
         <div className="space-y-2 text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-[#EE202C] sm:text-4xl md:text-5xl">
+          <h1 className="text-5xl font-bold tracking-tight text-black sm:text-4xl md:text-5xl">
             Verkaufe dein Auto <RevealText />
           </h1>
           <p className="mx-auto max-w-[600px] text-gray-600">
@@ -512,7 +512,7 @@ export default function DynamicCarDetailsForm() {
 
             <button
               type="submit"
-              className="w-[90%] mx-auto bg-[#E87524] hover:bg-[#E87524]/90 text-white py-3 px-4 rounded text-lg font-semibold flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-[90%] mx-auto bg-[#EE202C] hover:bg-[#EE202C]/90 text-white py-3 px-4 rounded text-lg font-semibold flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span>Bewertung ansehen</span>
               <ChevronRight className="mt-1 h-[25px] w-[25px]" />

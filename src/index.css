@@ -31,7 +31,7 @@
   top: -4px; /* Position the tick mark */
   width: 10px; /* Width of the tick mark */
   height: 17px; /* Height of the tick mark */
-  border: solid #e87524; /* Color of the tick */
+  border: solid #ee202c; /* Color of the tick */
   border-width: 0 4px 4px 0; /* Tick mark shape */
   transform: rotate(45deg); /* Rotate to form a tick */
 }
